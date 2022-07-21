@@ -1,8 +1,8 @@
 {
-  "name": "greenminter-fe",
+  "name": "dgg-fe",
   "version": "1.0.0",
   "homepage": ".",
-  "description": "Deflationary token with green mining automatic volume.",
+  "description": "DogeGod | The most profitable source of Dogecoin on the planet.",
   "license": "GPL-3.0",
   "scripts": {
     "dev": "next",
