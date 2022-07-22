@@ -20,7 +20,7 @@ function Footer() {
           <img src={PoweredByCz} />
       </figure>
       <p>
-        v0.1.1
+        v0.1.2
       </p>
     </div>
   </footer>);
