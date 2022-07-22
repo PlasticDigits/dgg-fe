@@ -74,8 +74,7 @@ function Home() {
   const endEpochTimer = useCountdown(endEpoch,"Ended");
 
   return (<>
-    <section id="top" className="hero has-text-centered" style={{backgroundColor:"#191919"}}>
-        <div>
+    <section id="top" className="hero has-text-centered" style={{backgroundColor:"#191919",minHeight:"85vh"}}>
             <video className="background-video" autoPlay loop muted >
               <source src={BackgroundVideo} type="video/mp4" />
             </video>
@@ -168,7 +167,6 @@ function Home() {
               </figure>
               </div>
             </div>
-        </div>
     </section>
     
     <Footer />
