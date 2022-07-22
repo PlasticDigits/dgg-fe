@@ -1018,6 +1018,26 @@
   resolved "https://registry.yarnpkg.com/@uniswap/token-lists/-/token-lists-1.0.0-beta.30.tgz#2103ca23b8007c59ec71718d34cdc97861c409e5"
   integrity sha512-HwY2VvkQ8lNR6ks5NqQfAtg+4IZqz3KV1T8d2DlI8emIn9uMmaoFbIOg0nzjqAVKKnZSbMTRRtUoAh6mmjRvog==
 
+"@usedapp/coingecko@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@usedapp/coingecko/-/coingecko-1.1.2.tgz#7a3d5d59001869a1fdcb1e04eaa0294bedaf583d"
+  integrity sha512-mvKm+e5q2wv3tHIi5BPCtI82AdNU9dUJRWL3BhSGZolGl+D8qDwcgnT2sDwCdV9USBB9alSUyHJDM4CF6vhKYw==
+  dependencies:
+    "@usedapp/core" "1.1.2"
+    isomorphic-fetch "^3.0.0"
+
+"@usedapp/core@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-1.1.2.tgz#9931a69a22968258e31fdb281b77f69e5c37e6c4"
+  integrity sha512-KuMId+qEITKdVGMBqF+MIfbWaY2/+KPVspa4UkMUGSQHY4bFRtn8RgTOPeV8JZqEJVJLt8gy2g4UotbQo0nQ7Q==
+  dependencies:
+    "@metamask/detect-provider" "^1.2.0"
+    "@uniswap/token-lists" "^1.0.0-beta.27"
+    fetch-mock "^9.11.0"
+    lodash.merge "^4.6.2"
+    lodash.pickby "^4.6.0"
+    nanoid "3.3.4"
+
 "@usedapp/core@^0.12.1":
   version "0.12.9"
   resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-0.12.9.tgz#d14220b8edf4a48f76be1a509b594621f2ca20b5"
@@ -3042,6 +3062,14 @@ iso-url@^1.1.3:
   resolved "https://registry.yarnpkg.com/iso-url/-/iso-url-1.2.1.tgz#db96a49d8d9a64a1c889fc07cc525d093afb1811"
   integrity sha512-9JPDgCN4B7QPkLtYAAOrEuAWvP9rWvR5offAr0/SeF046wIkglqH3VXgYYP6NcsKslH80UIVgmPqNe3j7tG2ng==
 
+isomorphic-fetch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz#0267b005049046d2421207215d45d6a262b8b8b4"
+  integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
+  dependencies:
+    node-fetch "^2.6.1"
+    whatwg-fetch "^3.4.1"
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -3590,7 +3618,7 @@ nanoid@3.1.22:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.22.tgz#b35f8fb7d151990a8aebd5aa5015c03cf726f844"
   integrity sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==
 
-nanoid@^3.1.30:
+nanoid@3.3.4, nanoid@^3.1.30:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -4945,6 +4973,11 @@ whatwg-fetch@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
   integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
+
+whatwg-fetch@^3.4.1:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+  integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
 
 whatwg-url@^5.0.0:
   version "5.0.0"

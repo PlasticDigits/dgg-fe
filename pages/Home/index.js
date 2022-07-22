@@ -4,6 +4,7 @@ import Web3ModalButton from '../../components/Web3ModalButton';
 import Footer from '../../components/Footer';
 import "./index.module.scss";
 import { useEthers, useContractFunction, useCall  } from '@usedapp/core'
+import {useCoingeckoPrice } from '@usedapp/coingecko';
 import { utils, Contract } from 'ethers'
 import useCountdown from "../../hooks/useCountdown";
 import DggLogo from '../../public/static/assets/logo.png';
@@ -22,19 +23,19 @@ const displayWad = (wad)=>!!wad ? Number(formatEther(wad)).toFixed(2) : "..."
 
 function Home() {
   const {account,library,chainId,activateBrowserWallet} = useEthers();
+  const bnbPrice = useCoingeckoPrice("binancecoin");
   
   const { state: stateDeposit, send: sendDeposit } = useContractFunction(DggaleContract, 'deposit');
 
 
   const [depositBnbInput,setDepositBnbInput] = useState(0.1)
-  console.log("test")
+  const [depositUsdInput,setDepositUsdInput] = useState(20)
+
   const { value: [minDepositWad], error: minDepositWadError } = useCall({
      contract: DggaleContract,
      method: 'minDepositWad',
      args: []
    }) ?? {value:[]}
-
-  console.log(minDepositWad)
 
   const { value: [maxDepositWad], error: maxDepositWadError } = useCall({
      contract: DggaleContract,
@@ -106,54 +107,51 @@ function Home() {
                   </ul>
                 </div>
                 <div className='mt-6 is-inline-block'>
-                  <input id="amountEtherInput" name="amountEtherInput" type="number" className='mb-3 input is-normal' step="0.1" min="0" max="100"
-                    style={{maxWidth:"95px",border:"solid 2px #191919"}}
+                  <input id="amountEtherInput" name="amountEtherInput" type="number" className='mb-3 input is-normal' step="0.1" min="0" max="3"
+                    style={{maxWidth:"70px",border:"solid 2px #191919",paddingRight:"3px"}}
                     value={depositBnbInput}
                     onChange={(event)=>{
-                      console.log("EVENT");
-                      console.log(event.target.value);
                       let inputNum = Number(event.target.value);
+                      console.log({inputNum})
                       if(!Number.isFinite(inputNum)) return;
-                      let minNum = !!minDepositWad ? Number(formatEther(minDepositWad)) : 0;
-                      console.log("minNum",minNum)
+                      console.log({inputNum})
+                      let minNum = !!minDepositWad ? Number(formatEther(minDepositWad.add(parseEther("5")).mul(100).div(Math.floor(Number(bnbPrice)*100)))) : 0;
                       if(!!minDepositWad && (inputNum < minNum)) inputNum = minNum;
-                      console.log("postmin",inputNum);
-                      let maxNum = !!maxDepositWad ? Number(formatEther(maxDepositWad)) : 100;
+                      console.log({inputNum})
+                      let maxNum = !!maxDepositWad ? Number(formatEther(maxDepositWad.sub(parseEther("5")).mul(100).div(Math.floor(Number(bnbPrice)*100)))) : 100;
                       if(!!maxDepositWad && (inputNum > maxNum)) inputNum = maxNum;
-                      console.log("postmax",inputNum);
-                      inputNum = Math.floor(inputNum*10)/10;
-                      console.log("final",inputNum);
+                      console.log({inputNum})
+                      inputNum = Math.round(inputNum*100)/100;
                       setDepositBnbInput(inputNum);
                     }} /> 
                     <span style={{position:"relative",top:"7px"}}><span style={{textShadow: "0px 0px 4px black",marginLeft:"4px"}}>BNB</span></span><br/>
-                    <button className='is-size-5 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#edb71d":"#555",border:"none"}}
+                    <button className='is-size-6 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#edb71d":"#555",border:"solid 4px #edb71d"}}
                       onClick={()=>sendDeposit({value:parseEther(depositBnbInput.toString())})}
                     >DEPOSIT</button><br/>
                 </div>
-                <div className="is-inline-block m-5 is-size-3">OR</div>
+                <div className="is-inline-block m-3 is-size-3">OR</div>
                 <div className='mt-6 is-inline-block'>
-                  <input id="amountEtherInput" name="amountEtherInput" type="number" className='mb-3 input is-normal' step="0.1" min="0" max="100"
-                    style={{maxWidth:"95px",border:"solid 2px #191919"}}
-                    value={depositBnbInput}
+                  <input id="amountEtherInput" name="amountEtherInput" type="number" className='mb-3 input is-normal' step="5" min="0" max="850"
+                    style={{maxWidth:"70px",border:"solid 2px #191919",paddingRight:"3px"}}
+                    value={depositUsdInput}
                     onChange={(event)=>{
-                      console.log("EVENT");
-                      console.log(event.target.value);
                       let inputNum = Number(event.target.value);
                       if(!Number.isFinite(inputNum)) return;
                       let minNum = !!minDepositWad ? Number(formatEther(minDepositWad)) : 0;
-                      console.log("minNum",minNum)
                       if(!!minDepositWad && (inputNum < minNum)) inputNum = minNum;
-                      console.log("postmin",inputNum);
                       let maxNum = !!maxDepositWad ? Number(formatEther(maxDepositWad)) : 100;
                       if(!!maxDepositWad && (inputNum > maxNum)) inputNum = maxNum;
-                      console.log("postmax",inputNum);
-                      inputNum = Math.floor(inputNum*10)/10;
-                      console.log("final",inputNum);
-                      setDepositBnbInput(inputNum);
+                      inputNum = Math.round(inputNum*100)/100;
+                      setDepositUsdInput(inputNum);
                     }} /> 
-                    <span style={{position:"relative",top:"7px"}}><span style={{textShadow: "0px 0px 4px black",marginLeft:"4px"}}>USD</span></span><br/>
-                    <button className='is-size-5 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#29805b":"#555",border:"none"}}
-                      onClick={()=>sendDeposit({value:parseEther(depositBnbInput.toString())})}
+                      <select name="Stablecoin" style={{position:"relative",top:"0.5em"}}>
+                        <option value="CZUSD" selected>CZUSD</option>
+                        <option value="BUSD">BUSD</option>
+                        <option value="USDC">USDC</option>
+                        <option value="USDT">USDT</option>
+                      </select><br/>
+                    <button className='is-size-6 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#29805b":"#555",border:"solid 4px #29805b"}}
+                      onClick={()=>sendDeposit({value:parseEther(depositUsdInput.toString())})}
                     >DEPOSIT</button><br/>
                 </div>
                 <br/>
