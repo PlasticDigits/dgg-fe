@@ -9,6 +9,7 @@ import { utils, Contract } from 'ethers'
 import useCountdown from "../../hooks/useCountdown";
 import DggLogo from '../../public/static/assets/logo.png';
 import DggMascot from '../../public/static/assets/images/Refined Mascot Full.png';
+import PoweredByCz from '../../public/static/assets/images/poweredbycz.png';
 import BackgroundImage from '../../public/static/assets/images/bg.jpg';
 import BackgroundVideo from '../../public/static/assets/vids/bgv1.mp4';
 import DggSaleAbi from "../../abi/DggSale.json";
@@ -159,9 +160,9 @@ function Home() {
                     >DEPOSIT</button><br/>
                 </div>
                 <br/>
-                  <figure className="image is-128x128 is-rounded mt-6" style={{display:"inline-block",top:"2px",position:"relative"}}>
-                      <img src={DggMascot} />
-                  </figure>
+              <figure className="image pt-3 pb-7" style={{display:"inline-block"}}>
+                  <img src={PoweredByCz} />
+              </figure>
               </div>
             </div>
         </div>

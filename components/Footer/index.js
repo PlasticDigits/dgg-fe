@@ -16,11 +16,8 @@ function Footer() {
           <span className="icon"><i className="fa-brands fa-github"></i></span>
         </a>
       </div>  
-      <figure className="image pt-3 pb-7" style={{display:"inline-block",top:"2px",position:"relative"}}>
-          <img src={PoweredByCz} />
-      </figure>
       <p>
-        v0.1.2
+        v0.1.3
       </p>
     </div>
   </footer>);
