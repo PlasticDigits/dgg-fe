@@ -74,25 +74,28 @@ function Home() {
   const endEpochTimer = useCountdown(endEpoch,"Ended");
 
   return (<>
-    <section id="top" className="hero has-text-centered">
+    <section id="top" className="hero has-text-centered" style={{backgroundColor:"#191919"}}>
         <div>
-            <div className="hero-head has-text-left pb-5" style={{marginLeft:"auto",marginRight:"auto",maxWidth:"1080px"}}>
-              <div className="mt-3 pb-0 mb-0" style={{float:"left"}}>
-                  <a href="https://dogegod.io">
-                    <figure className="image is-128x128 is-rounded m-0 is-pulled-left ml-2 mr-5 mb-0" style={{display:"inline-block",top:"2px",position:"relative"}}>
-                        <img src={DggLogo} />
-                    </figure>
-                  </a>
-                  <p className="title ml-5 mt-4" style={{color:"white"}}>DogeGod</p>
-                  <p className="subtitle is-size-6 mr-5 " style={{color:"#ddd"}}>The most profitable source of Dogecoin on the planet.</p>
+            <video className="background-video" autoPlay loop muted >
+              <source src={BackgroundVideo} type="video/mp4" />
+            </video>
+            <div className="hero-head has-text-left pb-5 mt-0 pt-1" style={{position:"relative",width:"100%",backgroundColor:"#191919"}}>
+              <div style={{marginLeft:"auto",marginRight:"auto",maxWidth:"1080px"}}>
+                <div className="mt-3 pb-0 mb-0" style={{float:"left"}}>
+                    <a href="https://dogegod.io">
+                      <figure className="image is-128x128 is-rounded m-0 is-pulled-left ml-2 mr-5 mb-0" style={{display:"inline-block",top:"2px",position:"relative"}}>
+                          <img src={DggLogo} />
+                      </figure>
+                    </a>
+                    <p className="title ml-5 mt-4" style={{color:"white"}}>DogeGod</p>
+                    <p className="subtitle is-size-6 mr-5 " style={{color:"#ddd"}}>The most profitable source of Dogecoin on the planet.</p>
+                </div>
+                  <Web3ModalButton />
+                <div className="is-clearfix"></div>
               </div>
-                <Web3ModalButton />
-              <div className="is-clearfix"></div>
             </div>
-            <div className='hero-body p-0 m-0 pt-5 pb-5' style={{color:"#ddd", backgroundImage:`url(${BackgroundImage})`,backgroundAttachment:"fixed", backgroundSize:'cover',position:"relative",overflow:"hidden"}}>
-              <video className="background-video" autoPlay loop muted >
-                <source src={BackgroundVideo} type="video/mp4" />
-              </video>
+            <div className='hero-body p-0 m-0 pt-5 pb-5' style={{color:"#ddd",position:"relative",overflow:"hidden"}}>
+              <div style={{backgroundColor:"rgba(0,0,0,0.75)",position:"absolute",top:"0",left:'0',bottom:"0",right:"0"}} /> 
               <div className="container has-text-centered">
                 <h2 className="is-size-3 mt-3">PRESALE: Use <span style={{color:"#edb71d"}}>BNB</span> or <span style={{color:"#4dc491"}}>STABLES</span></h2>
                 <div className="p-2" style={{maxWidth:"300px",marginLeft:"auto",marginRight:"auto"}}>
