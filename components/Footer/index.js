@@ -1,5 +1,6 @@
 import React from 'react';
 import { SOCIAL_TWITTER, SOCIAL_TELEGRAM, SOCIAL_GITHUB} from '../../constants/social';
+import PoweredByCz from '../../public/static/assets/images/poweredbycz.png';
 
 function Footer() {
     return(<footer id="footer" className="footer">
@@ -14,7 +15,10 @@ function Footer() {
         <a className="m-2" href={SOCIAL_GITHUB} target="_blank">
           <span className="icon"><i className="fa-brands fa-github"></i></span>
         </a>
-      </div>
+      </div>      
+      <figure className="image pt-3 pb-7" style={{display:"inline-block",top:"2px",position:"relative"}}>
+          <img src={PoweredByCz} />
+      </figure>
     </div>
   </footer>);
 }
