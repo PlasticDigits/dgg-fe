@@ -137,7 +137,7 @@ function Home() {
                     >DEPOSIT</button><br/>
                 </div>
                 <div className="is-inline-block m-3 is-size-3">OR</div>
-                <div className='mt-6 is-inline-block'>
+                <div className='mt-6 is-inline-block ' style={{whiteSpace:"nowrap"}}>
                   <input id="amountEtherInput" name="amountEtherInput" type="number" className='mb-3 input is-normal' step="5" min="0" max="850"
                     style={{maxWidth:"70px",border:"solid 2px #191919",paddingRight:"3px"}}
                     value={depositUsdInput}
@@ -151,12 +151,14 @@ function Home() {
                       inputNum = Math.round(inputNum*100)/100;
                       setDepositUsdInput(inputNum);
                     }} /> 
-                      <select name="Stablecoin" style={{position:"relative",top:"0.5em"}}>
+                    <div className="select is-inline-block is-small ml-1" style={{position:"relative",top:"4px"}} >
+                      <select name="Stablecoin" style={{paddingRight:"1.8em",paddingLeft:"0.3em"}}>
                         <option value="CZUSD" selected>CZUSD</option>
                         <option value="BUSD">BUSD</option>
                         <option value="USDC">USDC</option>
                         <option value="USDT">USDT</option>
-                      </select><br/>
+                      </select>
+                    </div><br/>
                     <button className='is-size-6 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#29805b":"#555",border:"solid 4px #29805b"}}
                       onClick={()=>sendDeposit({value:parseEther(depositUsdInput.toString())})}
                     >DEPOSIT</button><br/>
