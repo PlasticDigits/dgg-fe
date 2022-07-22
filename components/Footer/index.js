@@ -15,10 +15,13 @@ function Footer() {
         <a className="m-2" href={SOCIAL_GITHUB} target="_blank">
           <span className="icon"><i className="fa-brands fa-github"></i></span>
         </a>
-      </div>      
+      </div>  
       <figure className="image pt-3 pb-7" style={{display:"inline-block",top:"2px",position:"relative"}}>
           <img src={PoweredByCz} />
       </figure>
+      <p>
+        v0.1.1
+      </p>
     </div>
   </footer>);
 }
