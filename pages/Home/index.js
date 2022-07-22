@@ -10,6 +10,7 @@ import useCountdown from "../../hooks/useCountdown";
 import DggLogo from '../../public/static/assets/logo.png';
 import DggMascot from '../../public/static/assets/images/Refined Mascot Full.png';
 import BackgroundImage from '../../public/static/assets/images/bg.jpg';
+import BackgroundVideo from '../../public/static/assets/vids/bgv1.mp4';
 import DggSaleAbi from "../../abi/DggSale.json";
 import IERC20Abi from "../../abi/IERC20.json";
 import {  ADDRESS_BUSD, ADDRESS_DGGSALE } from '../../constants/addresses';
@@ -87,7 +88,10 @@ function Home() {
                 <Web3ModalButton />
               <div className="is-clearfix"></div>
             </div>
-            <div className='hero-body p-0 m-0 pt-5 pb-5' style={{color:"#ddd", backgroundImage:`url(${BackgroundImage})`,backgroundAttachment:"fixed", backgroundSize:'cover'}}>
+            <div className='hero-body p-0 m-0 pt-5 pb-5' style={{color:"#ddd", backgroundImage:`url(${BackgroundImage})`,backgroundAttachment:"fixed", backgroundSize:'cover',position:"relative",overflow:"hidden"}}>
+              <video className="background-video" autoPlay loop muted >
+                <source src={BackgroundVideo} type="video/mp4" />
+              </video>
               <div className="container has-text-centered">
                 <h2 className="is-size-3 mt-3">PRESALE: Use <span style={{color:"#edb71d"}}>BNB</span> or <span style={{color:"#4dc491"}}>STABLES</span></h2>
                 <div className="p-2" style={{maxWidth:"300px",marginLeft:"auto",marginRight:"auto"}}>

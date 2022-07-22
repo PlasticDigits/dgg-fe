@@ -1,5 +1,6 @@
 const withPlugins = require('next-compose-plugins');
 const withImages = require('next-images');
+const withVideos = require('next-videos')
 
 const nextConfig = {
   trailingSlash:true,
@@ -21,4 +22,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withPlugins([withImages], nextConfig);
+module.exports = withPlugins([withImages,withVideos], nextConfig);
