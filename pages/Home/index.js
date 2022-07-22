@@ -162,7 +162,7 @@ function Home() {
                     >DEPOSIT</button><br/>
                 </div>
                 <br/>
-              <figure className="image pt-3 pb-7" style={{display:"inline-block",maxWidth:"420px"}}>
+              <figure className="image pt-3 pb-6 pt-6" style={{display:"inline-block",maxWidth:"420px"}}>
                   <img src={PoweredByCz} />
               </figure>
               </div>
