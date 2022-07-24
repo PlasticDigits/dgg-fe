@@ -153,7 +153,7 @@ function Home() {
                 <div className="p-2" style={{maxWidth:"300px",marginLeft:"auto",marginRight:"auto"}}>
                   <ul>
                     <hr className="m-2 has-background-primary"/>
-                    <li style={{textShadow: "0px 0px 4px black"}}>20 USD = 2875k DGOD</li>
+                    <li style={{textShadow: "0px 0px 4px black"}}>20 USD = 2486k DGOD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Hardcap: {displayWad(hardcap)} USD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Total Deposits: {displayWad(totalDeposits)} USD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Wallet Max: {displayWad(maxDepositWad)} USD</li>
