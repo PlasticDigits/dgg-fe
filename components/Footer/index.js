@@ -17,7 +17,7 @@ function Footer() {
         </a>
       </div>  
       <p className='pb-6'>
-        v0.1.7
+        v0.1.8
       </p>
     </div>
   </footer>);

@@ -1,11 +1,11 @@
 
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import Web3ModalButton from '../../components/Web3ModalButton';
 import Footer from '../../components/Footer';
 import "./index.module.scss";
-import { useEthers, useContractFunction, useCall  } from '@usedapp/core'
+import { useEthers, useContractFunction, useCall, useTokenBalance, useTokenAllowance, useEtherBalance  } from '@usedapp/core'
 import {useCoingeckoPrice } from '@usedapp/coingecko';
-import { utils, Contract } from 'ethers'
+import { utils, Contract, constants } from 'ethers'
 import useCountdown from "../../hooks/useCountdown";
 import DggLogo from '../../public/static/assets/logo.png';
 import DggMascot from '../../public/static/assets/images/Refined Mascot Full.png';
@@ -14,21 +14,50 @@ import BackgroundImage from '../../public/static/assets/images/bg.jpg';
 import BackgroundVideo from '../../public/static/assets/vids/bgv1.mp4';
 import DggSaleAbi from "../../abi/DggSale.json";
 import IERC20Abi from "../../abi/IERC20.json";
-import {  ADDRESS_BUSD, ADDRESS_DGGSALE } from '../../constants/addresses';
-import { UrlJsonRpcProvider } from '@ethersproject/providers';
+import {  ADDRESS_CZUSD, ADDRESS_BUSD, ADDRESS_USDC, ADDRESS_USDT, ADDRESS_DGGSALE } from '../../constants/addresses';
 const { formatEther, parseEther, Interface } = utils;
 
 const DggSaleInterface = new Interface(DggSaleAbi);
 const DggaleContract = new Contract(ADDRESS_DGGSALE,DggSaleInterface);
 
-const displayWad = (wad)=>!!wad ? Number(formatEther(wad)).toFixed(2) : "..."
+const Ierc20Interface = new Interface(IERC20Abi);
+const CONTRACT_BUSD = new Contract(ADDRESS_BUSD,Ierc20Interface);
+const CONTRACT_USDC = new Contract(ADDRESS_USDC,Ierc20Interface);
+const CONTRACT_USDT = new Contract(ADDRESS_USDT,Ierc20Interface);
+
+
+
+const displayWad = (wad)=>!!wad ? Number(formatEther(wad)).toFixed(2) : "...";
 
 function Home() {
   const {account,library,chainId,activateBrowserWallet} = useEthers();
   const bnbPrice = useCoingeckoPrice("binancecoin");
-  
-  const { state: stateDeposit, send: sendDeposit } = useContractFunction(DggaleContract, 'deposit');
 
+  const accountBnbBal = useEtherBalance(account);
+  
+  const czusdBal = useTokenBalance(ADDRESS_CZUSD, account);
+  const usdcBal  = useTokenBalance(ADDRESS_USDC, account);
+  const busdBal  = useTokenBalance(ADDRESS_BUSD, account);
+  const usdtBal  = useTokenBalance(ADDRESS_USDT, account);
+  
+  const czusdAllow = useTokenAllowance(ADDRESS_CZUSD, account, ADDRESS_DGGSALE);
+  const usdcAllow  = useTokenAllowance(ADDRESS_USDC, account, ADDRESS_DGGSALE);
+  const busdAllow  = useTokenAllowance(ADDRESS_BUSD, account, ADDRESS_DGGSALE);
+  const usdtAllow  = useTokenAllowance(ADDRESS_USDT, account, ADDRESS_DGGSALE);
+  
+  const { state: stateBusdApprove, send: sendBusdApprove } = useContractFunction(CONTRACT_BUSD, 'approve');
+  const { state: stateUsdcApprove, send: sendUsdcApprove } = useContractFunction(CONTRACT_USDC, 'approve');
+  const { state: stateUsdtApprove, send: sendUsdtApprove } = useContractFunction(CONTRACT_USDT, 'approve');
+  
+  const { state: stateDepositBnb, send: sendDepositBnb } = useContractFunction(DggaleContract, 'depositBnb');
+  const { state: stateDepositCzusd, send: sendDepositCzusd } = useContractFunction(DggaleContract, 'depositCzusd');
+  const { state: stateDepositBusd, send: sendDepositBusd } = useContractFunction(DggaleContract, 'depositBusd');
+  const { state: stateDepositUsdc, send: sendDepositUsdc } = useContractFunction(DggaleContract, 'depositUsdc');
+  const { state: stateDepositUsdt, send: sendDepositUsdt } = useContractFunction(DggaleContract, 'depositUsdt');
+
+  const [selectedStable, setSelectedStable] = useState("CZUSD");
+  const [selectStableBal, setSelectedStableBal] = useState(czusdBal);
+  const [isApproveNeeded, setIsApproveNeeded] = useState(false);
 
   const [depositBnbInput,setDepositBnbInput] = useState(0.1)
   const [depositUsdInput,setDepositUsdInput] = useState(20)
@@ -72,6 +101,30 @@ function Home() {
    
   const startEpochTimer = useCountdown(startEpoch,"Started");
   const endEpochTimer = useCountdown(endEpoch,"Ended");
+
+  useEffect(()=>{
+    if(!account) {
+      setSelectedStableBal(parseEther("0"));
+      setIsApproveNeeded(false);
+      return;
+    }
+    if(selectedStable == "CZUSD") {
+      setSelectedStableBal(czusdBal ?? parseEther("0"));
+      setIsApproveNeeded(false);
+    }
+    if(selectedStable == "USDT") {
+      setSelectedStableBal(usdtBal ?? parseEther("0"));
+      setIsApproveNeeded(!!usdtAllow?.lt(usdtBal.add(1)));
+    }
+    if(selectedStable == "BUSD") {
+      setSelectedStableBal(busdBal ?? parseEther("0"));
+      setIsApproveNeeded(!!busdAllow?.lt(busdBal.add(1)));
+    }
+    if(selectedStable == "USDC") {
+      setSelectedStableBal(usdcBal ?? parseEther("0"));
+      setIsApproveNeeded(!!usdcAllow?.lt(usdcBal.add(1)));
+    }
+  },[selectedStable,czusdBal,czusdAllow,busdBal,busdAllow,usdcBal,usdcAllow,usdtAllow,usdtAllow,account]);
 
   return (<>
     <section id="top" className="hero has-text-centered" style={{backgroundColor:"#191919",minHeight:"85vh"}}>
@@ -119,21 +172,20 @@ function Home() {
                     value={depositBnbInput}
                     onChange={(event)=>{
                       let inputNum = Number(event.target.value);
-                      console.log({inputNum})
                       if(!Number.isFinite(inputNum)) return;
-                      console.log({inputNum})
                       let minNum = !!minDepositWad ? Number(formatEther(minDepositWad.add(parseEther("5")).mul(100).div(Math.floor(Number(bnbPrice)*100)))) : 0;
                       if(!!minDepositWad && (inputNum < minNum)) inputNum = minNum;
-                      console.log({inputNum})
                       let maxNum = !!maxDepositWad ? Number(formatEther(maxDepositWad.sub(parseEther("5")).mul(100).div(Math.floor(Number(bnbPrice)*100)))) : 100;
                       if(!!maxDepositWad && (inputNum > maxNum)) inputNum = maxNum;
-                      console.log({inputNum})
                       inputNum = Math.round(inputNum*100)/100;
                       setDepositBnbInput(inputNum);
                     }} /> 
                     <span style={{position:"relative",top:"7px"}}><span style={{textShadow: "0px 0px 4px black",marginLeft:"4px"}}>BNB</span></span><br/>
-                    <button className='is-size-6 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#edb71d":"#555",border:"solid 4px #edb71d"}}
-                      onClick={()=>sendDeposit({value:parseEther(depositBnbInput.toString())})}
+                    <button className='is-size-6 button is-primary' 
+                      style={{
+                        color:!!account?"#191919":"#444",
+                        backgroundColor:(!!account && accountBnbBal?.gte(parseEther(depositBnbInput?.toString() ?? "0")))?"#edb71d":"#555",border:"solid 4px #edb71d"}}
+                      onClick={()=>sendDepositBnb({value:parseEther(depositBnbInput.toString())})}
                     >DEPOSIT</button><br/>
                 </div>
                 <div className="is-inline-block m-3 is-size-3">OR</div>
@@ -152,16 +204,33 @@ function Home() {
                       setDepositUsdInput(inputNum);
                     }} /> 
                     <div className="select is-inline-block is-small ml-1" style={{position:"relative",top:"4px"}} >
-                      <select name="Stablecoin" style={{paddingRight:"1.8em",paddingLeft:"0.3em"}}>
-                        <option value="CZUSD" selected>CZUSD</option>
+                      <select name="Stablecoin" style={{paddingRight:"1.8em",paddingLeft:"0.3em"}} value={selectedStable}
+                        onChange={(event)=>setSelectedStable(event.target.value)} >
+                        <option value="CZUSD">CZUSD</option>
                         <option value="BUSD">BUSD</option>
                         <option value="USDC">USDC</option>
                         <option value="USDT">USDT</option>
                       </select>
                     </div><br/>
-                    <button className='is-size-6 button is-primary' style={{color:!!account?"#191919":"#444",backgroundColor:!!account?"#29805b":"#555",border:"solid 4px #29805b"}}
-                      onClick={()=>sendDeposit({value:parseEther(depositUsdInput.toString())})}
-                    >DEPOSIT</button><br/>
+                    <button className='is-size-6 button is-primary' 
+                      style={{
+                        color:!!account ?"#191919":"#444",
+                        backgroundColor:(isApproveNeeded || (!!account && selectStableBal?.gte(parseEther(depositUsdInput?.toString() ?? "0"))))?"#29805b":"#555",border:"solid 4px #29805b"}}
+                      onClick={()=>{
+                        const wad = parseEther(depositUsdInput.toString())
+                        if(isApproveNeeded) {
+                          console.log("Sending approve for",selectedStable,ADDRESS_DGGSALE);
+                          if(selectedStable == "BUSD") sendBusdApprove(ADDRESS_DGGSALE,constants.MaxUint256);
+                          if(selectedStable == "USDC") sendUsdcApprove(ADDRESS_DGGSALE,constants.MaxUint256);
+                          if(selectedStable == "USDT") sendUsdtApprove(ADDRESS_DGGSALE,constants.MaxUint256);
+                        } else {
+                          if(selectedStable == "CZUSD")  sendDepositCzusd(wad);
+                          if(selectedStable == "BUSD")   sendDepositBusd(wad);
+                          if(selectedStable == "USDC")   sendDepositUsdc(wad);
+                          if(selectedStable == "USDC")   sendDepositUsdt(wad);
+                        }
+                      }}
+                    >{!!isApproveNeeded ? "APPROVE" : "DEPOSIT"}</button><br/>
                 </div>
                 <br/>
               <figure className="image pt-3 pb-6 pt-6" style={{display:"inline-block",maxWidth:"420px"}}>

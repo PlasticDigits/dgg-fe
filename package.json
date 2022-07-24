@@ -43,7 +43,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.24",
     "babel-plugin-module-resolver": "^3.2.0",
-    "next-compose-plugins": "^2.2.0",
+    "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.4",
     "prettier": "^2.6.0",
     "ts-loader": "^9.2.8",
