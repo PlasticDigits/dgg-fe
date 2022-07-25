@@ -185,7 +185,10 @@ function Home() {
                       style={{
                         color:!!account?"#191919":"#444",
                         backgroundColor:(!!account && accountBnbBal?.gte(parseEther(depositBnbInput?.toString() ?? "0")))?"#edb71d":"#555",border:"solid 4px #edb71d"}}
-                      onClick={()=>sendDepositBnb({value:parseEther(depositBnbInput.toString())})}
+                      onClick={()=>{
+                        console.log((Number(bnbPrice) * depositBnbInput*0.9).toString())
+                        sendDepositBnb(parseEther(Math.floor((Number(bnbPrice) * depositBnbInput*0.9)).toString()),{value:parseEther(depositBnbInput.toString())})
+                      }}
                     >DEPOSIT</button><br/>
                 </div>
                 <div className="is-inline-block m-3 is-size-3">OR</div>
