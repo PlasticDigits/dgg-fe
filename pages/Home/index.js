@@ -221,16 +221,19 @@ function Home() {
                         backgroundColor:(isApproveNeeded || (!!account && selectStableBal?.gte(parseEther(depositUsdInput?.toString() ?? "0"))))?"#29805b":"#555",border:"solid 4px #29805b"}}
                       onClick={()=>{
                         const wad = parseEther(depositUsdInput.toString())
+                        console.log(formatEther(wad))
+                        console.log(selectedStable)
                         if(isApproveNeeded) {
                           console.log("Sending approve for",selectedStable,ADDRESS_DGGSALE);
                           if(selectedStable == "BUSD") sendBusdApprove(ADDRESS_DGGSALE,constants.MaxUint256);
                           if(selectedStable == "USDC") sendUsdcApprove(ADDRESS_DGGSALE,constants.MaxUint256);
                           if(selectedStable == "USDT") sendUsdtApprove(ADDRESS_DGGSALE,constants.MaxUint256);
                         } else {
+                          console.log("Doesnt need approve...")
                           if(selectedStable == "CZUSD")  sendDepositCzusd(wad);
                           if(selectedStable == "BUSD")   sendDepositBusd(wad);
                           if(selectedStable == "USDC")   sendDepositUsdc(wad);
-                          if(selectedStable == "USDC")   sendDepositUsdt(wad);
+                          if(selectedStable == "USDT")   sendDepositUsdt(wad);
                         }
                       }}
                     >{!!isApproveNeeded ? "APPROVE" : "DEPOSIT"}</button><br/>
