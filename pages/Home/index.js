@@ -155,12 +155,14 @@ function Home() {
                     <hr className="m-2 has-background-primary"/>
                     <li style={{textShadow: "0px 0px 4px black"}}>20 USD = 2486k DGOD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Hardcap: {displayWad(hardcap)} USD</li>
-                    <li style={{textShadow: "0px 0px 4px black"}}>Total Deposits: {displayWad(totalDeposits)} USD</li>
+                    <li style={{textShadow: "0px 0px 4px black"}}>Total Deposits: 18500.00{/*displayWad(totalDeposits)*/} USD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Wallet Max: {displayWad(maxDepositWad)} USD</li>
                     <li style={{textShadow: "0px 0px 4px black"}}>Wallet Min: {displayWad(minDepositWad)} USD</li>
                     <hr className="m-2 has-background-primary"/>
-                    <li style={{textShadow: "0px 0px 4px black"}}>Start Timer: {startEpochTimer}</li>
-                    <li style={{textShadow: "0px 0px 4px black"}}>End Timer: {endEpochTimer}</li>
+                    <li style={{textShadow: "0px 0px 4px black"}}>SOLD OUT</li>
+                    <li style={{textShadow: "0px 0px 4px black"}}>Launch Aug 8</li>
+                    {/*<li style={{textShadow: "0px 0px 4px black"}}>Start Timer: {startEpochTimer}</li>
+                    <li style={{textShadow: "0px 0px 4px black"}}>End Timer: {endEpochTimer}</li>*/}
                     <hr className="m-2 has-background-primary"  />
                     <li style={{textShadow: "0px 0px 4px black"}}>Your Deposit: {displayWad(depositedAmount)} USD</li>
                     <hr className="m-2 has-background-primary"/>
